@@ -1,0 +1,9 @@
+<Model:DirectionCollection 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Model="clr-namespace:MadMetroTimes.Model">
+    
+    <Model:Direction Label="Richmond H" Id="117" />
+    <Model:Direction Label="Wexford Rdg" Id="129" />
+    
+</Model:DirectionCollection>

@@ -1,0 +1,13 @@
+<ViewModels:NewMainViewModel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:ViewModels="clr-namespace:MadMetroTimes.ViewModels"
+                             xmlns:Model="clr-namespace:MadMetroTimes.Model">
+
+    <ViewModels:NewMainViewModel.BusStops>
+        <Model:BusStop Label="ANNIVERSARY &amp; HAYES" SignId="9285" />
+        <Model:BusStop Label="ARIV WEST TP &amp; TOKAY" SignId="3425" />
+        <Model:BusStop Label="E TOWNE RNG &amp; SHELTER" SignId="5235" />
+        <Model:BusStop Label="E WASH FT &amp; 4810" SignId="7543" />
+    </ViewModels:NewMainViewModel.BusStops>
+
+</ViewModels:NewMainViewModel>

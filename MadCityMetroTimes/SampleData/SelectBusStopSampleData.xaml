@@ -1,0 +1,10 @@
+<Model:BusStopCollection 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Model="clr-namespace:MadMetroTimes.Model">
+
+    <Model:BusStop Label="ANNIVERSARY &amp; HAYES" SignId="9285" />
+    <Model:BusStop Label="ARIV WEST TP &amp; TOKAY" SignId="9285" />
+    <Model:BusStop Label="E TOWNE RNG &amp; SHELTER" SignId="9285" />
+    <Model:BusStop Label="E WASH FT &amp; 4810" SignId="9285" />
+</Model:BusStopCollection>

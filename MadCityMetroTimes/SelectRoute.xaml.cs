@@ -1,32 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using MadMetroTimes.Model;
+using System.Windows.Navigation;
+using MadCityMetroTimes.Model;
 using Microsoft.Phone.Controls;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public partial class SelectRoute : PhoneApplicationPage
     {
+        private RouteService _routeService;
+
         public SelectRoute()
         {
             InitializeComponent();
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            RouteService.RoutesRetrieved += Route_RoutesRetrieved;
-            RouteService.RetrieveRoutes();
+            if(_routeService == null)
+            {
+                _routeService = new RouteService();
+                _routeService.RoutesRetrieved += OnRoutesRetrieved;
+            }
+            _routeService.RetrieveRoutes();
         }
 
-        void Route_RoutesRetrieved(ICollection<Route> routes)
+        void OnRoutesRetrieved(ICollection<Route> routes)
         {
             Dispatcher.BeginInvoke(() => RouteList.ItemsSource = routes);
         }
 
-        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void OnTextBlockTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var button = (TextBlock)sender;
             var route = (Route)button.DataContext;

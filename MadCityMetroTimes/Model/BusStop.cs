@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace MadMetroTimes.Model
+namespace MadCityMetroTimes.Model
 {
     [Table]
     public class BusStop : INotifyPropertyChanged, INotifyPropertyChanging, IEquatable<BusStop>

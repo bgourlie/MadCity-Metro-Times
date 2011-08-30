@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace MadMetroTimes.ViewModels
+namespace MadCityMetroTimes.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {

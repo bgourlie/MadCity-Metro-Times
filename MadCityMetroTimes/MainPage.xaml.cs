@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Navigation;
-using MadMetroTimes.ViewModels;
+using MadCityMetroTimes.ViewModels;
 using Microsoft.Phone.Controls;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -31,7 +30,7 @@ namespace MadMetroTimes
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var dataContext = new NewMainViewModel();
-            using(var db = MadMetroDataContext.GetInstance())
+            using(var db = MadMetroDataContext.NewInstance())
             {
                 //var busStops = from bsr in db.BusStopRoutes select bsr.
             }

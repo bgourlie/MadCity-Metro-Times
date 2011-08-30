@@ -1,37 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using MadMetroTimes.Model;
+using MadCityMetroTimes.Model;
 using Microsoft.Phone.Controls;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public partial class SelectDirection : PhoneApplicationPage
     {
-        private int _currentRoute;
+        private DirectionService _directionService;
 
         public SelectDirection()
         {
             InitializeComponent();
         }
-
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private int GetRouteId()
         {
-            DirectionService.DirectionsRetrieved += Direction_DirectionsRetrieved;
+            string routeIdStr;
+            NavigationContext.QueryString.TryGetValue("routeId", out routeIdStr);
+            return int.Parse(routeIdStr);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            string routeIdStr;
-            NavigationContext.QueryString.TryGetValue("routeId", out routeIdStr);
-            _currentRoute = int.Parse(routeIdStr);
-            DirectionService.RetrieveDirections(_currentRoute);
+            
+            if(_directionService == null)
+            {
+                _directionService = new DirectionService();
+                _directionService.DirectionsRetrieved += OnDirectionsRetrieved;
+            }
+            var routeId = GetRouteId();
+            _directionService.Execute(routeId);
         }
 
-        void Direction_DirectionsRetrieved(ICollection<Direction> directions)
+        void OnDirectionsRetrieved(ICollection<Direction> directions)
         {
             Dispatcher.BeginInvoke(() => DirectionList.ItemsSource = directions);
         }
@@ -40,8 +44,9 @@ namespace MadMetroTimes
         {
             var button = (TextBlock)sender;
             var direction = (Direction)button.DataContext;
+            var routeId = GetRouteId();
             var uri =
-                new Uri(string.Format("/SelectBusStop.xaml?routeId={0}&directionId={1}", _currentRoute,
+                new Uri(string.Format("/SelectBusStop.xaml?routeId={0}&directionId={1}", routeId,
                                       direction.Id), UriKind.Relative);
             NavigationService.Navigate(uri);
         }

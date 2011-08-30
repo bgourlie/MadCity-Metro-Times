@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace MadMetroTimes.ViewModels
+namespace MadCityMetroTimes.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged
     {

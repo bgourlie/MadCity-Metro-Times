@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
-using MadMetroTimes.ViewModels;
+using MadCityMetroTimes.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public partial class App : Application
     {
@@ -26,7 +26,7 @@ namespace MadMetroTimes
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
-            using(var db = MadMetroDataContext.GetInstance())
+            using(var db = MadMetroDataContext.NewInstance())
             {
                 if(!db.DatabaseExists()) db.CreateDatabase();
             }

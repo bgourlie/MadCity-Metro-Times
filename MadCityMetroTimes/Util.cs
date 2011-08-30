@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public class Util
     {

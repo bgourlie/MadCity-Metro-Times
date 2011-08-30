@@ -1,0 +1,6 @@
+Bin/
+obj/
+_Resharper.*
+*.csproj.user
+*.suo
+*.ReSharper.user

@@ -4,9 +4,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using MadMetroTimes.Model;
+using MadCityMetroTimes.Model;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public static class BusStopService
     {

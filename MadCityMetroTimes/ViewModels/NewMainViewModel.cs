@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using MadMetroTimes.Model;
+using MadCityMetroTimes.Model;
 
-namespace MadMetroTimes.ViewModels
+namespace MadCityMetroTimes.ViewModels
 {
     public class NewMainViewModel
     {

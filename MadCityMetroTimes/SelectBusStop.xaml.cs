@@ -3,10 +3,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using MadMetroTimes.Model;
+using MadCityMetroTimes.Model;
 using Microsoft.Phone.Controls;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public partial class SelectBusStop : PhoneApplicationPage
     {
@@ -46,7 +46,7 @@ namespace MadMetroTimes
 
             var busStopRoute = new BusStopRoute { RouteId = _routeId, BusStopId = busStop.Id };
 
-            using (var db = MadMetroDataContext.GetInstance())
+            using (var db = MadMetroDataContext.NewInstance())
             {
                 var alreadyExists =
                     db.BusStopRoutes.Any(

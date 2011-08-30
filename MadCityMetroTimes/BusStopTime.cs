@@ -1,4 +1,4 @@
-﻿namespace MadMetroTimes.Model
+﻿namespace MadCityMetroTimes
 {
     public class BusStopTime
     {

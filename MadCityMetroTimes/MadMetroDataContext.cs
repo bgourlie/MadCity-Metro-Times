@@ -1,12 +1,11 @@
-﻿
-using System.Data.Linq;
-using MadMetroTimes.Model;
+﻿using System.Data.Linq;
+using MadCityMetroTimes.Model;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
     public class MadMetroDataContext : DataContext
     {
-        private const string CONN_STRING = "Data Source=isostore:/MadMetroTimes.sdf";
+        private const string CONN_STRING = "Data Source=isostore:/MadCityMetroTimes.sdf";
         private MadMetroDataContext(string fileOrConnection) : base(fileOrConnection){}
         
         public Table<BusStop> BusStops;
@@ -16,7 +15,7 @@ namespace MadMetroTimes
         public Table<BusStopRoute> BusStopRoutes;
         public Table<BusStopDirection> BusStopDirections;
  
-        public static MadMetroDataContext GetInstance()
+        public static MadMetroDataContext NewInstance()
         {
             return new MadMetroDataContext(CONN_STRING);
         }

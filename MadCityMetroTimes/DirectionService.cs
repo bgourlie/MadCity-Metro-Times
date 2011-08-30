@@ -5,23 +5,23 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using MadMetroTimes.Model;
+using MadCityMetroTimes.Model;
 
-namespace MadMetroTimes
+namespace MadCityMetroTimes
 {
-    public static class DirectionService
+    public class DirectionService
     {
         private static readonly Regex __matchDirectionRegex =
             new Regex("<a class=\"ada\" title=\"([a-z0-9\\- ]+)\" href=\"\\?r=(?:\\d+)&d=(\\d+)\">",
                       RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public static event Action<ICollection<Direction>> DirectionsRetrieved;
+        public event Action<ICollection<Direction>> DirectionsRetrieved;
 
-        public static void RetrieveDirections(int routeId, bool forceRefresh = false)
+        public void Execute(int routeId, bool forceRefresh = false)
         {
             if(!forceRefresh)
             {
-                using(var db = MadMetroDataContext.GetInstance())
+                using(var db = MadMetroDataContext.NewInstance())
                 {
                     var directions = (from bsr in db.RouteDirections where bsr.RouteId == routeId select bsr.Direction).ToArray();
                     if (directions.Length > 0)
@@ -35,12 +35,13 @@ namespace MadMetroTimes
             var request =
                 WebRequest.CreateHttp(string.Format("http://webwatch.cityofmadison.com/webwatch/ada.aspx?r={0}", routeId));
             request.Method = "GET";
-            request.BeginGetResponse(ProcessResponse, request);
+            request.BeginGetResponse(ProcessResponse, new object[]{routeId, request});
         }
 
-        private static void ProcessResponse(IAsyncResult result)
+        private void ProcessResponse(IAsyncResult result)
         {
-            var request = (HttpWebRequest) result.AsyncState;
+            var routeId = (int)((object[])result.AsyncState)[0];
+            var request = (HttpWebRequest)((object[])result.AsyncState)[1];
             var returnedDirections = new List<Direction>();
             using (WebResponse response = request.EndGetResponse(result))
             {
@@ -63,16 +64,39 @@ namespace MadMetroTimes
             }
 
             if (DirectionsRetrieved != null) DirectionsRetrieved(returnedDirections);
-            var directionIds = (from d in returnedDirections select d.Id).ToArray();
-            //cache the results in the database.  We just erase all existin rows for this row and reinsert
-            using(var db = MadMetroDataContext.GetInstance())
+            CacheDirections(returnedDirections, routeId);
+        }
+
+        private static void CacheDirections(ICollection<Direction> directions, int routeId)
+        {
+            var directionIds = (from d in directions select d.Id).ToArray();
+            //cache the results in the database.  
+            //Insert any Directions that don't already exist
+            using (var db = MadMetroDataContext.NewInstance())
             {
-                var existingDirections = from d in db.Directions where directionIds.Contains(d.Id) select d;
-                foreach(var newDirection in returnedDirections.Except(existingDirections))
+                var existingDirections = (from d in db.Directions where directionIds.Contains(d.Id) select d).ToArray();
+                foreach (var newDirection in directions.Except(existingDirections))
                 {
                     db.Directions.InsertOnSubmit(newDirection);
                 }
 
+                //delete existing RouteDirection rows and just re-add 
+                var existingRouteDirections = (from rd in db.RouteDirections
+                                              where directionIds.Contains(rd.DirectionId) && rd.RouteId == routeId
+                                              select rd).ToArray();
+
+                foreach(var existingRouteDirection in existingRouteDirections)
+                {
+                    db.RouteDirections.DeleteOnSubmit(existingRouteDirection);
+                }
+
+                db.SubmitChanges();
+
+                foreach(var directionId in directionIds)
+                {
+                    db.RouteDirections.InsertOnSubmit(new RouteDirection{DirectionId = directionId, RouteId = routeId});
+                }
+                
                 db.SubmitChanges();
             }
         }

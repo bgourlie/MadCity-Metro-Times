@@ -10,7 +10,7 @@ namespace MadCityMetroTimes
 {
     public partial class SelectBusStop : PhoneApplicationPage
     {
-        private int _routeId;
+        private BusStopService _busStopService;
 
         public SelectBusStop()
         {
@@ -20,48 +20,59 @@ namespace MadCityMetroTimes
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            string routeIdStr;
-            string directionIdStr;
-            NavigationContext.QueryString.TryGetValue("routeId", out routeIdStr);
-            NavigationContext.QueryString.TryGetValue("directionId", out directionIdStr);
-            _routeId = int.Parse(routeIdStr);
-            int directionId = int.Parse(directionIdStr);
-            BusStopService.RetrieveBusStops(_routeId, directionId);
+            
+            if(_busStopService == null)
+            {
+                _busStopService = new BusStopService();
+                _busStopService.BusStopsRetrieved += OnBusStopsRetrieved;
+            }
+            var routeId = GetRouteId();
+            var directionId = GetDirectionId();
+            _busStopService.RetrieveBusStops(routeId, directionId);
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private int GetRouteId()
         {
-            BusStopService.BusStopsRetrieved += BusStop_BusStopsRetrieved;
+            string routeIdStr;
+            NavigationContext.QueryString.TryGetValue("routeId", out routeIdStr);
+            return int.Parse(routeIdStr);
         }
 
-        private void BusStop_BusStopsRetrieved(ICollection<BusStop> busStops)
+        private int GetDirectionId()
+        {
+            string directionIdStr;
+            NavigationContext.QueryString.TryGetValue("directionId", out directionIdStr);
+            return int.Parse(directionIdStr); 
+        }
+
+        private void OnBusStopsRetrieved(ICollection<BusStop> busStops)
         {
             Dispatcher.BeginInvoke(() => BusStopList.ItemsSource = busStops);
         }
 
-        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void OnTextBlockTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var button = (TextBlock)sender;
             var busStop = (BusStop)button.DataContext;
-
-            var busStopRoute = new BusStopRoute { RouteId = _routeId, BusStopId = busStop.Id };
+            var routeId = GetRouteId();
+            var directionId = GetDirectionId();
 
             using (var db = MadMetroDataContext.NewInstance())
             {
-                var alreadyExists =
-                    db.BusStopRoutes.Any(
-                        bsr => bsr.RouteId == busStopRoute.RouteId && bsr.BusStopId == busStopRoute.BusStopId);
+                var busStopRoute =
+                    db.BusStopRouteDirections.Single(
+                        bsr => bsr.RouteId == routeId && bsr.BusStopId == busStop.Id && bsr.DirectionId == directionId);
 
-                if (!alreadyExists)
+                if (!busStopRoute.IsTracking)
                 {
                     var addRouteResult =
                         MessageBox.Show(
-                            string.Format("Track times for route {0} at {1} (id #{2})?", _routeId, busStop.Label,
+                            string.Format("Track times for route {0} at {1} (id #{2})?", routeId, busStop.Label,
                                           busStop.SignId), "Track this route?", MessageBoxButton.OKCancel);
 
                     if (addRouteResult == MessageBoxResult.OK)
                     {
-                        db.BusStopRoutes.InsertOnSubmit(busStopRoute);
+                        busStopRoute.IsTracking = true;
                         db.SubmitChanges();
                     }
                 }else

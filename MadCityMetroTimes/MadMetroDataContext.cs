@@ -12,8 +12,7 @@ namespace MadCityMetroTimes
         public Table<Route> Routes;
         public Table<Direction> Directions;
         public Table<RouteDirection> RouteDirections;
-        public Table<BusStopRoute> BusStopRoutes;
-        public Table<BusStopDirection> BusStopDirections;
+        public Table<BusStopRouteDirection> BusStopRouteDirections;
  
         public static MadMetroDataContext NewInstance()
         {

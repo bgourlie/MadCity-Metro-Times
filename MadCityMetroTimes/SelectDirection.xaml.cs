@@ -32,7 +32,7 @@ namespace MadCityMetroTimes
                 _directionService.DirectionsRetrieved += OnDirectionsRetrieved;
             }
             var routeId = GetRouteId();
-            _directionService.Execute(routeId);
+            _directionService.RetrieveDirections(routeId);
         }
 
         void OnDirectionsRetrieved(ICollection<Direction> directions)

@@ -17,7 +17,7 @@ namespace MadCityMetroTimes
 
         public event Action<ICollection<Direction>> DirectionsRetrieved;
 
-        public void Execute(int routeId, bool forceRefresh = false)
+        public void RetrieveDirections(int routeId, bool forceRefresh = false)
         {
             if(!forceRefresh)
             {
@@ -69,7 +69,7 @@ namespace MadCityMetroTimes
 
         private static void CacheDirections(ICollection<Direction> directions, int routeId)
         {
-            var directionIds = (from d in directions select d.Id).ToArray();
+            var directionIds = from d in directions select d.Id;
             //cache the results in the database.  
             //Insert any Directions that don't already exist
             using (var db = MadMetroDataContext.NewInstance())
@@ -81,9 +81,9 @@ namespace MadCityMetroTimes
                 }
 
                 //delete existing RouteDirection rows and just re-add 
-                var existingRouteDirections = (from rd in db.RouteDirections
+                var existingRouteDirections = from rd in db.RouteDirections
                                               where directionIds.Contains(rd.DirectionId) && rd.RouteId == routeId
-                                              select rd).ToArray();
+                                              select rd;
 
                 foreach(var existingRouteDirection in existingRouteDirections)
                 {

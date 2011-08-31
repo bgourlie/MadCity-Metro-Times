@@ -64,11 +64,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BusStopService.cs" />
-    <Compile Include="Model\BusStopDirection.cs" />
-    <Compile Include="Model\BusStopRoute.cs" />
     <Compile Include="BusStopTime.cs" />
     <Compile Include="ArrivalTimes.cs" />
     <Compile Include="Model\BusStop.cs" />
+    <Compile Include="Model\BusStopRouteDirection.cs" />
     <Compile Include="Model\Direction.cs" />
     <Compile Include="DirectionService.cs" />
     <Compile Include="MadMetroDataContext.cs" />

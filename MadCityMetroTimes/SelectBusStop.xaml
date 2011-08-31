@@ -12,7 +12,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     d:DataContext="{d:DesignData SampleData/SelectBusStopSampleData.xaml}"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
+    shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -32,7 +32,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Path=Label}" FontSize="{StaticResource PhoneFontSizeLarge}" Tap="TextBlock_Tap" />
+                        <TextBlock Text="{Binding Path=Label}" FontSize="{StaticResource PhoneFontSizeLarge}" Tap="OnTextBlockTap" />
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="#" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneSubtleBrush}" />
                             <TextBlock Text="{Binding Path=SignId}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneSubtleBrush}" />

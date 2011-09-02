@@ -18,9 +18,15 @@
 
             <controls:Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=BusStopLabel}" />
+                    <TextBlock Text="{Binding Path=Label}" />
                 </DataTemplate>
             </controls:Pivot.HeaderTemplate>
+
+            <controls:Pivot.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Label}" />
+                </DataTemplate>
+            </controls:Pivot.ItemTemplate>
         </controls:Pivot>
     </Grid>
  

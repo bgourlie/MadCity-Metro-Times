@@ -27,7 +27,7 @@ namespace MadCityMetroTimes
 
         public void GetTimes()
         {
-            HttpWebRequest request =
+            var request =
                 WebRequest.CreateHttp(
                     string.Format("http://webwatch.cityofmadison.com/webwatch/ada.aspx?r={0}&d={1}&s={2}", _route,
                                   _direction, _stopId));

@@ -16,10 +16,10 @@ namespace MadCityMetroTimes.Model
         private int _signId;
         private string _intersection;
         private string _label;
-        private readonly EntitySet<BusStopRouteDirection> _busStopRoutes = new EntitySet<BusStopRouteDirection>();
+        private readonly EntitySet<BusStopRoute> _busStopRoutes = new EntitySet<BusStopRoute>();
 
         [Association(Storage = "_busStopRoutes", OtherKey = "BusStopId")]
-        public EntitySet<BusStopRouteDirection> ButStopRoutes
+        public EntitySet<BusStopRoute> ButStopRoutes
         {
             get { return _busStopRoutes; }
             set { _busStopRoutes.Assign(value); }

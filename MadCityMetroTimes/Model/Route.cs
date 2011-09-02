@@ -10,7 +10,7 @@ namespace MadCityMetroTimes.Model
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangingEventHandler PropertyChanging;
-        private readonly EntitySet<BusStopRouteDirection> _busStopRoutes = new EntitySet<BusStopRouteDirection>();
+        private readonly EntitySet<BusStopRoute> _busStopRoutes = new EntitySet<BusStopRoute>();
         private readonly EntitySet<RouteDirection> _routeDirections = new EntitySet<RouteDirection>();
         
         [Association(Storage = "_routeDirections", OtherKey = "DirectionId")]
@@ -21,7 +21,7 @@ namespace MadCityMetroTimes.Model
         }
 
         [Association(Storage = "_busStopRoutes", OtherKey = "RouteId")]
-        public EntitySet<BusStopRouteDirection> ButStopRoutes
+        public EntitySet<BusStopRoute> ButStopRoutes
         {
             get { return _busStopRoutes; }
             set { _busStopRoutes.Assign(value); }

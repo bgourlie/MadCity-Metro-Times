@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Navigation;
+using MadCityMetroTimes.Model;
 using MadCityMetroTimes.ViewModels;
 using Microsoft.Phone.Controls;
 
@@ -32,9 +35,11 @@ namespace MadCityMetroTimes
             var dataContext = new NewMainViewModel();
             using(var db = MadMetroDataContext.NewInstance())
             {
-                //var busStops = from bsr in db.BusStopRoutes select bsr.
+                var busStopQuery = from bsr in db.BusStopRouteDirections where bsr.IsTracking select bsr.BusStop;
+                //implement code to get departure times and set them in the datacontext
+                dataContext.BusStops = new ObservableCollection<BusStop>(busStopQuery);
             }
-            this.DataContext = dataContext;
+            DataContext = dataContext;
         }
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)

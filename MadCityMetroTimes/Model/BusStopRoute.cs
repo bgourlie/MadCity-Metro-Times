@@ -6,7 +6,7 @@ using System.Data.Linq.Mapping;
 namespace MadCityMetroTimes.Model
 {
     [Table]
-    public class BusStopRouteDirection : INotifyPropertyChanged, INotifyPropertyChanging, IEquatable<BusStopRouteDirection>
+    public class BusStopRoute : INotifyPropertyChanged, INotifyPropertyChanging, IEquatable<BusStopRoute>
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangingEventHandler PropertyChanging;
@@ -136,7 +136,7 @@ namespace MadCityMetroTimes.Model
 
         #region Equality Members
 
-        public bool Equals(BusStopRouteDirection other)
+        public bool Equals(BusStopRoute other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -147,8 +147,8 @@ namespace MadCityMetroTimes.Model
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (BusStopRouteDirection)) return false;
-            return Equals((BusStopRouteDirection) obj);
+            if (obj.GetType() != typeof (BusStopRoute)) return false;
+            return Equals((BusStopRoute) obj);
         }
 
         public override int GetHashCode()

@@ -88,7 +88,7 @@ namespace MadCityMetroTimes
                 db.SubmitChanges();
 
                 var busStopRouteDirections = from bsId in retrievedBusStopIds 
-                                             select new BusStopRouteDirection {BusStopId = bsId, RouteId = routeId, DirectionId = directionId};
+                                             select new BusStopRoute {BusStopId = bsId, RouteId = routeId, DirectionId = directionId};
 
                 var retrievedBusStopIdsCopy = retrievedBusStopIds;
                 var existingBusStopRouteDirectionIds = from bsrd in db.BusStopRouteDirections

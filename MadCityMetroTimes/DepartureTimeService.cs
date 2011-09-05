@@ -23,7 +23,7 @@ namespace MadCityMetroTimes
             BusStop = busStop;
         }
 
-        public event Action<ICollection<BusStopTime>> TimesDetermined;
+        public event Action<BusStop, ICollection<BusStopTime>> TimesDetermined;
 
         public void GetTimes(IEnumerable<RouteDirection> routeDirections)
         {
@@ -78,7 +78,7 @@ namespace MadCityMetroTimes
                     }
                 }
             }
-            if (TimesDetermined != null) TimesDetermined(ret);
+            if (TimesDetermined != null) TimesDetermined(BusStop, ret);
         }
     }
 }

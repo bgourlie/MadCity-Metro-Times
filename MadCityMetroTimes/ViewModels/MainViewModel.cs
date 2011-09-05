@@ -24,14 +24,7 @@ namespace MadCityMetroTimes.ViewModels
                 //create the pivot view for this bus stop if it doesn't already exist
                 if (!_pivotViewModels.Any(pvm => pvm.BusStop.Equals(busStopRoute.BusStop)))
                 {
-                    var pvm = new PivotViewModel
-                                  {
-                                      BusStop = busStopRoute.BusStop,
-                                      BusStopTimes = new ObservableCollection<BusStopTime>(),
-                                      RouteDirections = new ObservableCollection<RouteDirection>()
-                                  };
-
-                    PivotViewModels.Add(pvm);
+                    
                 }
                 
                 var viewModel =_pivotViewModels.Single(pvm => pvm.BusStop.Equals(busStopRoute.BusStop));

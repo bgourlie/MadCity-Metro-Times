@@ -91,7 +91,9 @@
     </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
-    <Compile Include="ViewModels\NewMainViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\PivotViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <DesignData Include="SampleData\MainViewModelSampleData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </DesignData>
     <DesignData Include="SampleData\SelectRouteSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,10 +118,6 @@
       <SubType>Designer</SubType>
     </DesignData>
     <DesignData Include="SampleData\SelectBusStopSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="SampleData\NewMainViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>

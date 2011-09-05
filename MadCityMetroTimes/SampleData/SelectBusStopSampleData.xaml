@@ -1,7 +1,6 @@
 <Model:BusStopCollection 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Model="clr-namespace:MadCityMetroTimes.Model"
-    x:Class="MadCityMetroTimes.SampleData.c__users_brian_desktop_madcity_metro_times_madcitymetrotimes_sampledata_selectbusstopsampledata_xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Model="clr-namespace:MadCityMetroTimes.Model">
 
     <Model:BusStop Label="ANNIVERSARY &amp; HAYES" SignId="9285" />
     <Model:BusStop Label="ARIV WEST TP &amp; TOKAY" SignId="9285" />

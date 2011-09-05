@@ -7,7 +7,7 @@ using MadCityMetroTimes.Model;
 
 namespace MadCityMetroTimes.ViewModels
 {
-    public class NewMainViewModel : INotifyPropertyChanged, INotifyPropertyChanging
+    public class MainViewModel : INotifyPropertyChanged, INotifyPropertyChanging
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangingEventHandler PropertyChanging;

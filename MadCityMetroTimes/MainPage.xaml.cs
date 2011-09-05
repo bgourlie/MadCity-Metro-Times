@@ -21,7 +21,7 @@ namespace MadCityMetroTimes
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var dataContext = new NewMainViewModel();
+            var dataContext = new MainViewModel();
             using(var db = MadMetroDataContext.NewInstance())
             {
                 dataContext.Initialize(db.BusStopRoutes.Where(bsr => bsr.IsTracking));

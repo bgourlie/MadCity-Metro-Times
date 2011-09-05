@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 using MadCityMetroTimes.Model;
 using MadCityMetroTimes.ViewModels;
@@ -15,19 +17,6 @@ namespace MadCityMetroTimes
         public MainPage()
         {
             InitializeComponent();
-
-            // Set the data context of the listbox control to the sample data
-            DataContext = App.ViewModel;
-            Loaded += MainPage_Loaded;
-        }
-
-        // Load data for the ViewModel Items
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -35,9 +24,7 @@ namespace MadCityMetroTimes
             var dataContext = new NewMainViewModel();
             using(var db = MadMetroDataContext.NewInstance())
             {
-                var busStopQuery = from bsr in db.BusStopRouteDirections where bsr.IsTracking select bsr.BusStop;
-                //implement code to get departure times and set them in the datacontext
-                dataContext.BusStops = new ObservableCollection<BusStop>(busStopQuery);
+                dataContext.Initialize(db.BusStopRoutes.Where(bsr => bsr.IsTracking));
             }
             DataContext = dataContext;
         }
@@ -45,6 +32,11 @@ namespace MadCityMetroTimes
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/SelectRoute.xaml", UriKind.Relative));
+        }
+
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var pivot = (Pivot) sender;
         }
     }
 }

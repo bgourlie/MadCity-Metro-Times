@@ -60,7 +60,7 @@ namespace MadCityMetroTimes
             using (var db = MadMetroDataContext.NewInstance())
             {
                 var busStopRoute =
-                    db.BusStopRouteDirections.Single(
+                    db.BusStopRoutes.Single(
                         bsr => bsr.RouteId == routeId && bsr.BusStopId == busStop.Id && bsr.DirectionId == directionId);
 
                 if (!busStopRoute.IsTracking)

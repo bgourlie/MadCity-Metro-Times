@@ -4,56 +4,76 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using MadCityMetroTimes.Model;
 
 namespace MadCityMetroTimes
 {
-    public class ArrivalTimes
+    public class DepartureTimeService
     {
+        private static readonly Regex __matchUpdatedTime = new Regex("<a class=\"ada\" title=\"Prediction last updated ([0-9:/ pam.]+)\">",
+                                                                     RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         private static readonly Regex __matchArrivalTime = new Regex("<a class=\"ada\" title=\"([0-9: pam.]+)\">",
                                                                      RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private readonly int _direction;
-        private readonly int _route;
-        private readonly int _stopId;
+        public readonly BusStop BusStop;
 
-        public ArrivalTimes(int route, int direction, int stopId)
+        public DepartureTimeService(BusStop busStop)
         {
-            _stopId = stopId;
-            _route = route;
-            _direction = direction;
+            BusStop = busStop;
         }
 
         public event Action<ICollection<BusStopTime>> TimesDetermined;
 
-        public void GetTimes()
+        public void GetTimes(IEnumerable<RouteDirection> routeDirections)
         {
-            var request =
-                WebRequest.CreateHttp(
-                    string.Format("http://webwatch.cityofmadison.com/webwatch/ada.aspx?r={0}&d={1}&s={2}", _route,
-                                  _direction, _stopId));
-            request.Method = "GET";
-            request.BeginGetResponse(ProcessResponse, request);
+            foreach (var routeDirection in routeDirections)
+            {
+                var request =
+                    WebRequest.CreateHttp(
+                        string.Format("http://webwatch.cityofmadison.com/webwatch/ada.aspx?r={0}&d={1}&s={2}",
+                                      routeDirection.RouteId,
+                                      routeDirection.DirectionId, BusStop.Id));
+                request.Method = "GET";
+                request.BeginGetResponse(ProcessResponse, new object[] {request, routeDirection});
+            }
         }
 
         private void ProcessResponse(IAsyncResult result)
         {
-            var request = (HttpWebRequest) result.AsyncState;
+            var state = (object[]) result.AsyncState;
+            var request = (HttpWebRequest) state[0];
+            var routeDirection = (RouteDirection) state[1];
             var ret = new List<BusStopTime>();
-            using (WebResponse response = request.EndGetResponse(result))
+            using (var response = request.EndGetResponse(result))
             {
                 //we could assume they're using utf-8, but this future proofs things
                 Match encodingMatch = Util.MatchEncodingRegex.Match(response.Headers["Content-Type"]);
                 if (!encodingMatch.Success) throw new Exception("Unabled to determine response encoding.");
                 string encoding = encodingMatch.Groups[1].Value;
 
-                using (Stream responseStream = response.GetResponseStream())
+                using (var responseStream = response.GetResponseStream())
                 {
                     using (var textReader = new StreamReader(responseStream, Encoding.GetEncoding(encoding)))
                     {
                         string html = textReader.ReadToEnd();
+                        var updateTimeString = __matchUpdatedTime.Match(html).Groups[1].Value;
+                        var updateTime = DateTime.Parse(updateTimeString);
                         foreach (Match match in __matchArrivalTime.Matches(html))
                         {
-                            ret.Add(new BusStopTime{Route = _route, StopId = _stopId, Time = match.Groups[1].Value});
+                            var departureTimeString = match.Groups[1].Value.Replace(".", "");
+                            DateTime departureTime;
+                            if(departureTimeString.ToLower().EndsWith("am") && updateTime.ToString("tt").ToLower() == "pm")
+                            {
+                                //the bus is actually arriving the next day (past midnight), so we can't just parse it, we'll have to add a day too
+                                departureTime = DateTime.Parse(departureTimeString).AddDays(1);
+                            }
+                            else
+                            {
+                                //no need to add a day, the departure time occurs today
+                                departureTime = DateTime.Parse(departureTimeString);       
+                            }
+                            ret.Add(new BusStopTime { Route = routeDirection.Route, BusStop = BusStop, Time = departureTime });
                         }
                     }
                 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -6,7 +7,7 @@ using System.Data.Linq.Mapping;
 namespace MadCityMetroTimes.Model
 {
     [Table]
-    public class Route : INotifyPropertyChanged, INotifyPropertyChanging
+    public class Route : INotifyPropertyChanged, INotifyPropertyChanging, IEquatable<Route>
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangingEventHandler PropertyChanging;
@@ -60,6 +61,27 @@ namespace MadCityMetroTimes.Model
                 if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Label"));
             }
         }
+        #region Equality Members
+        public bool Equals(Route other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return other._id == _id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Route)) return false;
+            return Equals((Route) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return _id;
+        }
+    #endregion
     }
 
     public class RouteCollection : ObservableCollection<Route>{}

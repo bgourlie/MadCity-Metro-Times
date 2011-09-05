@@ -1,9 +1,12 @@
-﻿namespace MadCityMetroTimes
+﻿using System;
+using MadCityMetroTimes.Model;
+
+namespace MadCityMetroTimes
 {
     public class BusStopTime
     {
-        public int Route { get; set; }
-        public int StopId { get; set; }
-        public string Time { get; set; }
+        public Route Route { get; set; }
+        public BusStop BusStop { get; set; }
+        public DateTime Time { get; set; }
     }
 }

@@ -130,7 +130,6 @@ namespace MadCityMetroTimes.Model
                 if (PropertyChanging != null) PropertyChanging(this, new PropertyChangingEventArgs("IsTracking"));
                 _isTracking = value;
                 if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("IsTracking"));
-                
             }
         }
 

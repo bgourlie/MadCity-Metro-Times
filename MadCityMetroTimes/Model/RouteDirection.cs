@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
@@ -6,7 +7,7 @@ namespace MadCityMetroTimes.Model
 {
 
     [Table]
-    public class RouteDirection : INotifyPropertyChanged, INotifyPropertyChanging
+    public class RouteDirection : INotifyPropertyChanged, INotifyPropertyChanging, IEquatable<RouteDirection>
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangingEventHandler PropertyChanging;
@@ -85,6 +86,29 @@ namespace MadCityMetroTimes.Model
             }
         }
 
-        
+        #region Equality Members
+        public bool Equals(RouteDirection other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return other._routeId == _routeId && other._directionId == _directionId;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (RouteDirection)) return false;
+            return Equals((RouteDirection) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_routeId*397) ^ _directionId;
+            }
+        }
+        #endregion
     }
 }

@@ -9,8 +9,6 @@ namespace MadCityMetroTimes
 {
     public partial class App : Application
     {
-        private static MainViewModel viewModel;
-
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -32,18 +30,6 @@ namespace MadCityMetroTimes
             }
         }
 
-        public static MainViewModel ViewModel
-        {
-            get
-            {
-                // Delay creation of the view model until necessary
-                if (viewModel == null)
-                    viewModel = new MainViewModel();
-
-                return viewModel;
-            }
-        }
-
         public PhoneApplicationFrame RootFrame { get; private set; }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -56,11 +42,6 @@ namespace MadCityMetroTimes
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            // Ensure that application state is restored appropriately
-            if (!ViewModel.IsDataLoaded)
-            {
-                ViewModel.LoadData();
-            }
         }
 
         // Code to execute when the application is deactivated (sent to background)

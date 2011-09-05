@@ -80,6 +80,4 @@ namespace MadCityMetroTimes.Model
 
         #endregion
     }
-
-    public class DirectionCollection : ObservableCollection<Direction>{}
 }

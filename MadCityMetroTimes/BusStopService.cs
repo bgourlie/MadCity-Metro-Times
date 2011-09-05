@@ -20,7 +20,7 @@ namespace MadCityMetroTimes
             {
                 using(var db = MadMetroDataContext.NewInstance())
                 {
-                    var busStops = (from bs in db.BusStopRouteDirections
+                    var busStops = (from bs in db.BusStopRoutes
                                    where bs.RouteId == routeId && bs.DirectionId == directionId
                                    select bs.BusStop).ToArray();
 
@@ -91,13 +91,13 @@ namespace MadCityMetroTimes
                                              select new BusStopRoute {BusStopId = bsId, RouteId = routeId, DirectionId = directionId};
 
                 var retrievedBusStopIdsCopy = retrievedBusStopIds;
-                var existingBusStopRouteDirectionIds = from bsrd in db.BusStopRouteDirections
+                var existingBusStopRouteDirectionIds = from bsrd in db.BusStopRoutes
                                                        where
                                                            retrievedBusStopIdsCopy.Contains(bsrd.BusStopId) &&
                                                            bsrd.RouteId == routeId && bsrd.DirectionId == directionId
                                                        select bsrd;
 
-                db.BusStopRouteDirections.InsertAllOnSubmit(busStopRouteDirections.Except(existingBusStopRouteDirectionIds));
+                db.BusStopRoutes.InsertAllOnSubmit(busStopRouteDirections.Except(existingBusStopRouteDirectionIds));
                 db.SubmitChanges();
             }
         }

@@ -2,13 +2,60 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                              xmlns:Model="clr-namespace:MadCityMetroTimes.Model"
                              xmlns:ViewModels="clr-namespace:MadCityMetroTimes.ViewModels"
+                             xmlns:MadCityMetroTimes="clr-namespace:MadCityMetroTimes"
                              x:Class="MadCityMetroTimes.SampleData.c__users_brian_desktop_madcity_metro_times_madcitymetrotimes_sampledata_newmainviewmodelsampledata_xaml">
 
-    <ViewModels:NewMainViewModel.BusStops>
-        <Model:BusStop Label="ANNIVERSARY &amp; HAYES" SignId="9285" />
-        <Model:BusStop Label="ARIV WEST TP &amp; TOKAY" SignId="3425" />
-        <Model:BusStop Label="E TOWNE RNG &amp; SHELTER" SignId="5235" />
-        <Model:BusStop Label="E WASH FT &amp; 4810" SignId="7543" />
-    </ViewModels:NewMainViewModel.BusStops>
+    <ViewModels:NewMainViewModel.PivotViewModels>
+        <ViewModels:PivotViewModel>
+            <ViewModels:PivotViewModel.BusStop>
+                <Model:BusStop Label="ARIV WEST TP &amp; TOKAY" SignId="3425" />
+            </ViewModels:PivotViewModel.BusStop>
+            <ViewModels:PivotViewModel.BusStopTimes>
+                <MadCityMetroTimes:BusStopTime>
+                    <MadCityMetroTimes:BusStopTime.Route>
+                        <Model:Route Label="Route 6"/>
+                    </MadCityMetroTimes:BusStopTime.Route>
+                    <MadCityMetroTimes:BusStopTime.BusStop>
+                        <Model:BusStop Label="E WASH &amp; NORTH" />
+                    </MadCityMetroTimes:BusStopTime.BusStop>
+                    
+                </MadCityMetroTimes:BusStopTime>
+            </ViewModels:PivotViewModel.BusStopTimes>
+            
+        </ViewModels:PivotViewModel>
 
+        <ViewModels:PivotViewModel>
+            <ViewModels:PivotViewModel.BusStop>
+                <Model:BusStop Label="E TOWNE RNG &amp; SHELTER" SignId="5235" />
+            </ViewModels:PivotViewModel.BusStop>
+
+            <ViewModels:PivotViewModel.BusStopTimes>
+                <MadCityMetroTimes:BusStopTime Time="8:06 AM">
+                    <MadCityMetroTimes:BusStopTime.Route>
+                        <Model:Route Label="Route 6"/>
+                    </MadCityMetroTimes:BusStopTime.Route>
+                    <MadCityMetroTimes:BusStopTime.BusStop>
+                        <Model:BusStop Label="E WASH &amp; NORTH" />
+                    </MadCityMetroTimes:BusStopTime.BusStop>
+                </MadCityMetroTimes:BusStopTime>
+            </ViewModels:PivotViewModel.BusStopTimes>
+        </ViewModels:PivotViewModel>
+
+        <ViewModels:PivotViewModel>
+            <ViewModels:PivotViewModel.BusStop>
+                <Model:BusStop Label="E WASH FT &amp; 4810" SignId="7543" />
+            </ViewModels:PivotViewModel.BusStop>
+
+            <ViewModels:PivotViewModel.BusStopTimes>
+                <MadCityMetroTimes:BusStopTime Time="8:06 AM">
+                    <MadCityMetroTimes:BusStopTime.Route>
+                        <Model:Route Label="Route 6"/>
+                    </MadCityMetroTimes:BusStopTime.Route>
+                    <MadCityMetroTimes:BusStopTime.BusStop>
+                        <Model:BusStop Label="E WASH &amp; NORTH" />
+                    </MadCityMetroTimes:BusStopTime.BusStop>
+                </MadCityMetroTimes:BusStopTime>
+            </ViewModels:PivotViewModel.BusStopTimes>
+        </ViewModels:PivotViewModel>
+    </ViewModels:NewMainViewModel.PivotViewModels>
 </ViewModels:NewMainViewModel>
